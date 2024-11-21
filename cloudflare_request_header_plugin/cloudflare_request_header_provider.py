@@ -13,7 +13,9 @@ class CloudflareRequestHeaderProvider(RequestHeaderProvider):
 
     def request_headers(self):
         request_headers = {}
-        request_headers["cf-access-token"] = os.getenv("CF_ACCESS_TOKEN")
-        request_headers["cf-access-client-id"] = os.getenv("CF_ACCESS_CLIENT_ID")
-        request_headers["cf-access-client-secret"] = os.getenv("CF-ACCESS-CLIENT-SECRET")
+        if os.getenv("CF_ACCESS_TOKEN") is not None:
+            request_headers["cf-access-token"] = os.getenv("CF_ACCESS_TOKEN")
+        else:
+            request_headers["cf-access-client-id"] = os.getenv("CF_ACCESS_CLIENT_ID")
+            request_headers["cf-access-client-secret"] = os.getenv("CF_ACCESS_CLIENT_SECRET")
         return request_headers
